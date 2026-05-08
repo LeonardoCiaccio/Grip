@@ -21,10 +21,36 @@ GRIP separates responsibilities cleanly:
 
 ## Installation
 
-GRIP is a single ES module file. Import the `Grip` class or the singleton instance `grip` directly.
+**npm**
+
+```
+npm install @leonardo.ciaccio/grip
+```
 
 ```js
-import { grip, register, Grip } from './Grip.js'
+import { grip, register, Grip } from '@leonardo.ciaccio/grip'
+```
+
+**CDN**
+
+```html
+<script type="module">
+  import { grip, register, Grip } from 'https://unpkg.com/@leonardo.ciaccio/grip'
+</script>
+```
+
+```html
+<script type="module">
+  import { grip, register, Grip } from 'https://cdn.jsdelivr.net/npm/@leonardo.ciaccio/grip'
+</script>
+```
+
+**Local**
+
+GRIP is also a single ES module file. Import directly from the source if you prefer no build step.
+
+```js
+import { grip, register, Grip } from './core/grip.js'
 ```
 
 ---
