@@ -424,6 +424,51 @@ describe('createOrder', () => {
 
 ---
 
+## Graph visualization
+
+Because all functions and hooks are registered in a single, queryable registry, the full structure of a GRIP instance can be read at any time and mapped directly onto a graph.
+
+Each registered function becomes a node. Each hook — local or global — becomes a node connected to its function with an edge labelled by phase. Global hooks connect to the instance root and implicitly reach every function in the registry.
+
+The inspection API provides everything needed to build this graph:
+
+```js
+const nodes = []
+const links = []
+
+// Registry root
+nodes.push({ id: 'grip' })
+
+// Global hooks
+const globals = grip.globalHooks
+for (const phase of ['before', 'guard', 'after']) {
+  globals[phase].forEach((hook, i) => {
+    const id = `global-${phase}-${i}`
+    nodes.push({ id, label: hook.label ?? phase })
+    links.push({ source: 'grip', target: id })
+  })
+}
+
+// Registered functions and their local hooks
+for (const name of grip.list()) {
+  nodes.push({ id: name })
+  links.push({ source: 'grip', target: name })
+
+  const hooks = grip.getHooks(name)
+  for (const phase of ['before', 'guard', 'after']) {
+    hooks[phase].forEach((hook, i) => {
+      const id = `${name}-${phase}-${i}`
+      nodes.push({ id, label: hook.label ?? phase })
+      links.push({ source: name, target: id })
+    })
+  }
+}
+```
+
+This is possible because GRIP has no hidden wiring. Every function, every hook, and every connection is declared explicitly through the public API and remains readable throughout the application's lifecycle.
+
+---
+
 ## Error types
 
 | `errorType` | Cause |
