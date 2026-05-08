@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRIP · Div Counter</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: {} } }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body  { font-family: 'Inter', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .pipeline-entry { animation: fadeSlideIn 0.18s ease both; }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
+
+  <div class="max-w-2xl mx-auto px-4 py-16 space-y-5">
+
+    <!-- ══ Header ══════════════════════════════════════════════════ -->
+    <header class="text-center space-y-3 pb-2">
+      <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5 text-indigo-400 text-xs font-semibold tracking-widest uppercase">
+        <!-- heroicon: bolt -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+        </svg>
+        GRIP Framework
+      </div>
+      <h1 class="text-4xl font-bold text-white tracking-tight">Div Counter</h1>
+      <p class="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">
+        Enter a public URL. GRIP validates, guards, fetches, counts —
+        then shows you every step of the interceptor pipeline.
+      </p>
+    </header>
+
+    <!-- ══ Input card ══════════════════════════════════════════════ -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
+      <div class="flex gap-2.5">
+
+        <div class="relative flex-1">
+          <!-- heroicon: globe-alt -->
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.038 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.038-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+            </svg>
+          </span>
+          <input
+            id="urlInput"
+            type="url"
+            placeholder="https://example.com"
+            class="mono w-full bg-gray-800 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+          />
+        </div>
+
+        <button
+          id="checkBtn"
+          class="shrink-0 bg-indigo-600 hover:bg-indigo-500 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold px-5 py-3 rounded-xl transition-all flex items-center gap-2 select-none"
+        >
+          <!-- heroicon: magnifying-glass -->
+          <svg id="iconSearch" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+          <!-- heroicon: arrow-path (loading spinner) -->
+          <svg id="iconSpin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 hidden animate-spin">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span id="btnLabel">Check</span>
+        </button>
+
+      </div>
+
+      <p class="text-xs text-gray-600 flex items-center gap-1.5">
+        <!-- heroicon: information-circle -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+        </svg>
+        Direct fetch — the target URL must allow cross-origin requests (CORS) · rate limited to 1 req / 3 s
+      </p>
+    </div>
+
+    <!-- ══ Pipeline log ════════════════════════════════════════════ -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+
+      <div class="px-5 py-3.5 border-b border-gray-800/70 flex items-center gap-2.5">
+        <div id="statusDot" class="w-2 h-2 rounded-full bg-gray-700 shrink-0 transition-colors duration-300"></div>
+        <span class="text-sm font-semibold text-gray-200">Execution Pipeline</span>
+        <code class="ml-auto text-xs text-gray-600 mono">grip.fire('countDivs', { url })</code>
+      </div>
+
+      <div id="pipelineLog" class="px-5 py-4 space-y-1.5 mono text-xs min-h-24 max-h-72 overflow-y-auto">
+        <p class="text-gray-700 italic">Waiting for execution…</p>
+      </div>
+
+    </div>
+
+    <!-- ══ Result (populated by controller.js) ═════════════════════ -->
+    <div id="resultCard" class="hidden bg-gray-900 border border-gray-800 rounded-2xl p-5"></div>
+
+    <!-- ══ GripResponse JSON ════════════════════════════════════════ -->
+    <div id="responseCard" class="hidden bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+      <div class="px-5 py-3.5 border-b border-gray-800/70 flex items-center gap-2">
+        <!-- heroicon: code-bracket -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-500 shrink-0">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+        </svg>
+        <span class="text-sm font-semibold text-gray-200">GripResponse</span>
+      </div>
+      <pre id="responseJson" class="mono px-5 py-4 text-xs text-gray-400 leading-relaxed overflow-auto max-h-64"></pre>
+    </div>
+
+    <!-- ══ Footer ══════════════════════════════════════════════════ -->
+    <footer class="text-center text-xs text-gray-700 pt-2">
+      GRIP — Global Registry with Interceptors Pipeline &middot; by Leonardo Ciaccio
+    </footer>
+
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+
+</body>
+</html>
