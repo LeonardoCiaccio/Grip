@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRIP · Div Counter</title>
+  <title>GRIP · Meteo</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/3d-force-graph/dist/3d-force-graph.min.js"></script>
@@ -44,10 +44,10 @@
         </svg>
         GRIP Framework
       </div>
-      <h1 class="text-4xl font-bold text-white tracking-tight">Div Counter</h1>
+      <h1 class="text-4xl font-bold text-white tracking-tight">Meteo</h1>
       <p class="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">
-        Enter a public URL. GRIP validates, guards, fetches, counts —
-        then shows you every step of the interceptor pipeline.
+        Three chained GRIP functions — geocode, fetch, format —
+        each with its own contract and hooks.
       </p>
     </header>
 
@@ -56,16 +56,17 @@
       <div class="flex gap-2.5">
 
         <div class="relative flex-1">
-          <!-- heroicon: globe-alt -->
+          <!-- heroicon: map-pin -->
           <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.038 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.038-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
             </svg>
           </span>
           <input
-            id="urlInput"
-            type="url"
-            placeholder="https://example.com"
+            id="cityInput"
+            type="text"
+            placeholder="City name…"
             class="mono w-full bg-gray-800 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
           />
         </div>
@@ -78,11 +79,11 @@
           <svg id="iconSearch" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
           </svg>
-          <!-- heroicon: arrow-path (loading spinner) -->
+          <!-- heroicon: arrow-path (loading) -->
           <svg id="iconSpin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 hidden animate-spin">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
           </svg>
-          <span id="btnLabel">Check</span>
+          <span id="btnLabel">Get weather</span>
         </button>
 
       </div>
@@ -92,7 +93,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
           <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
         </svg>
-        Direct fetch — the target URL must allow cross-origin requests (CORS) · rate limited to 1 req / 3 s
+        Powered by Open-Meteo (open source, no API key required) · rate limited to 1 req / 3 s
       </p>
     </div>
 
@@ -102,10 +103,10 @@
       <div class="px-5 py-3.5 border-b border-gray-800/70 flex items-center gap-2.5">
         <div id="statusDot" class="w-2 h-2 rounded-full bg-gray-700 shrink-0 transition-colors duration-300"></div>
         <span class="text-sm font-semibold text-gray-200">Execution Pipeline</span>
-        <code class="ml-auto text-xs text-gray-600 mono">grip.fire('countDivs', { url })</code>
+        <code class="ml-auto text-xs text-gray-600 mono">geocodeCity → fetchWeather → formatWeather</code>
       </div>
 
-      <div id="pipelineLog" class="px-5 py-4 space-y-1.5 mono text-xs min-h-24 max-h-72 overflow-y-auto">
+      <div id="pipelineLog" class="px-5 py-4 space-y-1.5 mono text-xs min-h-24 max-h-80 overflow-y-auto">
         <p class="text-gray-700 italic">Waiting for execution…</p>
       </div>
 
@@ -122,6 +123,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
         </svg>
         <span class="text-sm font-semibold text-gray-200">GripResponse</span>
+        <span class="ml-2 text-xs text-gray-600">all three pipeline responses</span>
       </div>
       <pre id="responseJson" class="mono px-5 py-4 text-xs text-gray-400 leading-relaxed overflow-auto max-h-64"></pre>
     </div>
@@ -153,14 +155,12 @@
 
     <div class="relative w-full max-w-5xl h-[80vh] bg-gray-950 border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
 
-      <!-- Modal header -->
       <div class="shrink-0 px-5 py-3.5 border-b border-gray-800 flex items-center gap-3 bg-gray-950/90 backdrop-blur">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-indigo-400 shrink-0">
           <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
         </svg>
         <span class="text-sm font-semibold text-gray-200">GRIP — Live Structure Map</span>
 
-        <!-- Legend -->
         <div class="ml-4 hidden sm:flex items-center gap-4 text-[10px] text-gray-500 mono">
           <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>instance</span>
           <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>function</span>
@@ -177,7 +177,6 @@
         </button>
       </div>
 
-      <!-- Graph canvas -->
       <div id="gripGraphContainer" class="flex-1 w-full"></div>
 
     </div>
