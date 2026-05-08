@@ -13,7 +13,7 @@
   },
   "keywords": ["grip", "registry", "interceptors", "pipeline", "hooks", "business-logic"],
   "author": "Leonardo Ciaccio",
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
     "@babel/core": "^7.28.0",
