@@ -1,8 +1,11 @@
 {
-  "name": "grip",
-  "version": "1.0.0",
+  "name": "@leonardo.ciaccio/grip",
+  "version": "1.173.0",
   "description": "Global Registry with Interceptors Pipeline — a lightweight JavaScript framework for organizing, protecting, and observing business logic.",
   "main": "core/grip.js",
+  "unpkg": "core/grip.min.js",
+  "jsdelivr": "core/grip.min.js",
+  "files": ["core/"],
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
