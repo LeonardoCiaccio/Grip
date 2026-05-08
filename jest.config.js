@@ -4,7 +4,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
   },
   testMatch: ['**/*.test.js'],
-  collectCoverageFrom: ['Grip.js', 'functions/**/*.js'],
+  collectCoverageFrom: ['core/grip.js'],
   moduleFileExtensions: ['js', 'json'],
   clearMocks: true,
   restoreMocks: true

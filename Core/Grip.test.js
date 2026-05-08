@@ -1,4 +1,4 @@
-import { grip, register, Grip } from './Grip.js'
+import { grip, register, Grip } from './grip.js'
 
 beforeEach(() => grip.reset())
 
