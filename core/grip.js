@@ -1,5 +1,5 @@
 /**
- * @fileoverview GRIP — Global Registry with Interceptors Pipeline
+ * @fileoverview GRIP — Global Registry with Interceptors Pipeline - v1.173
  *
  * A lightweight JavaScript framework for organizing, protecting, and observing
  * the business logic of an application. Every function is declared with a precise
@@ -35,7 +35,7 @@ const REGISTER_KEYS = new Set(['name', 'validate', 'business', 'assertResult', '
  * `response.errorType === 'TIMEOUT'`.
  * @private
  */
-class TimeoutError extends Error {}
+class TimeoutError extends Error { }
 
 /**
  * Races a promise against a timeout. Uses `finally` to guarantee the timer is
@@ -282,8 +282,8 @@ export class Grip {
 
         // Merge global and local hooks, respecting execution order.
         const befores = [...this.#globalHooks.before, ...hooks.before]
-        const afters  = [...hooks.after,              ...this.#globalHooks.after]
-        const guards  = [...this.#globalHooks.guard,  ...hooks.guard]
+        const afters = [...hooks.after, ...this.#globalHooks.after]
+        const guards = [...this.#globalHooks.guard, ...hooks.guard]
 
         const response = { isSuccess: false, message: '', errorType: null, result: null, hookErrors: [] }
 
@@ -301,7 +301,7 @@ export class Grip {
         try {
             for (const { fn } of guards) await fn({ name, args }, context)
         } catch (error) {
-            response.message   = `${name} | ${error.message}`
+            response.message = `${name} | ${error.message}`
             response.errorType = 'GUARD'
             await runAfters()
             return response
@@ -309,7 +309,7 @@ export class Grip {
 
         // Phase 3: null check — explicit guard against null args before destructuring in validate.
         if (args === null) {
-            response.message   = `${name} | args must not be null.`
+            response.message = `${name} | args must not be null.`
             response.errorType = 'VALIDATION'
             await runAfters()
             return response
@@ -319,7 +319,7 @@ export class Grip {
         try {
             await validate(args, context)
         } catch (error) {
-            response.message   = `${name} | ${error.message}`
+            response.message = `${name} | ${error.message}`
             response.errorType = 'VALIDATION'
             await runAfters()
             return response
@@ -330,7 +330,7 @@ export class Grip {
             const call = business(args, context)
             response.result = await (timeout ? withTimeout(call, timeout) : call)
         } catch (error) {
-            response.message   = `${name} | ${error.message}`
+            response.message = `${name} | ${error.message}`
             response.errorType = error instanceof TimeoutError ? 'TIMEOUT' : 'BUSINESS'
             await runAfters()
             return response
@@ -341,8 +341,8 @@ export class Grip {
             try {
                 await assertResult(response.result, context)
             } catch (error) {
-                response.result    = null
-                response.message   = `${name} | assertResult failed: ${error.message}`
+                response.result = null
+                response.message = `${name} | assertResult failed: ${error.message}`
                 response.errorType = 'ASSERT_RESULT'
                 await runAfters()
                 return response
@@ -351,7 +351,7 @@ export class Grip {
 
         // Phase 7: after — always runs.
         response.isSuccess = true
-        response.message   = `${name} | Executed successfully.`
+        response.message = `${name} | Executed successfully.`
         await runAfters()
         return response
     }
@@ -372,8 +372,8 @@ export class Grip {
     #applyHook(target, hooks) {
         const label = hooks.label
         if (hooks.before) target.before.push({ fn: hooks.before, label })
-        if (hooks.after)  target.after.push({ fn: hooks.after, label })
-        if (hooks.guard)  target.guard.push({ fn: hooks.guard, label })
+        if (hooks.after) target.after.push({ fn: hooks.after, label })
+        if (hooks.guard) target.guard.push({ fn: hooks.guard, label })
     }
 
     // -----------------------------------------------------------------------
@@ -389,8 +389,8 @@ export class Grip {
     get globalHooks() {
         return {
             before: [...this.#globalHooks.before],
-            after:  [...this.#globalHooks.after],
-            guard:  [...this.#globalHooks.guard]
+            after: [...this.#globalHooks.after],
+            guard: [...this.#globalHooks.guard]
         }
     }
 
@@ -408,8 +408,8 @@ export class Grip {
         if (!entry) return null
         return {
             before: [...entry.hooks.before],
-            after:  [...entry.hooks.after],
-            guard:  [...entry.hooks.guard]
+            after: [...entry.hooks.after],
+            guard: [...entry.hooks.guard]
         }
     }
 
@@ -426,8 +426,8 @@ export class Grip {
         if (!pending) return null
         return {
             before: [...pending.before],
-            after:  [...pending.after],
-            guard:  [...pending.guard]
+            after: [...pending.after],
+            guard: [...pending.guard]
         }
     }
 
@@ -483,8 +483,8 @@ export class Grip {
             config: { name, validate, business, assertResult, timeout },
             hooks: {
                 before: [...pending.before],
-                after:  [...pending.after],
-                guard:  [...pending.guard]
+                after: [...pending.after],
+                guard: [...pending.guard]
             }
         })
 
@@ -588,8 +588,8 @@ export class Grip {
             return this
         }
         entry.hooks.before = []
-        entry.hooks.after  = []
-        entry.hooks.guard  = []
+        entry.hooks.after = []
+        entry.hooks.guard = []
         return this
     }
 
@@ -600,8 +600,8 @@ export class Grip {
      */
     clearGlobalHooks() {
         this.#globalHooks.before = []
-        this.#globalHooks.after  = []
-        this.#globalHooks.guard  = []
+        this.#globalHooks.after = []
+        this.#globalHooks.guard = []
         return this
     }
 
@@ -644,8 +644,8 @@ export class Grip {
         this.#registry.clear()
         this.#pendingHooks.clear()
         this.#globalHooks.before = []
-        this.#globalHooks.after  = []
-        this.#globalHooks.guard  = []
+        this.#globalHooks.after = []
+        this.#globalHooks.guard = []
         return this
     }
 
