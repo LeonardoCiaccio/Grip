@@ -29,6 +29,21 @@ import { grip, register, Grip } from './Grip.js'
 
 ---
 
+## Scripts
+
+The following commands are available from the project root:
+
+| Command | Description |
+|---------|-------------|
+| `npm run build` | Minifies `core/grip.js` into `core/grip.min.js` using Terser with three compression passes and full mangling. Run this after modifying the source to keep the distributed file in sync. |
+| `npm run example` | Starts a local static server and serves the examples at `http://localhost:3000`. Handles path resolution across the project so examples can import GRIP from `core/` correctly, regardless of where the command is run from. |
+| `npm test` | Runs the full test suite with Jest. |
+| `npm run test:watch` | Runs Jest in watch mode — re-runs affected tests on every file change. Useful during active development. |
+| `npm run test:coverage` | Runs the test suite and generates a coverage report. |
+| `npm run test:verbose` | Runs the test suite with full per-test output. |
+
+---
+
 ## Examples
 
 The `example/` directory contains four browser-based demos that show GRIP in progressively more complex scenarios — from a single guarded function to a full financial dashboard with audit logging and budget enforcement.
