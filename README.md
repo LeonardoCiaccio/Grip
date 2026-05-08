@@ -29,6 +29,27 @@ import { grip, register, Grip } from './Grip.js'
 
 ---
 
+## Examples
+
+The `example/` directory contains four browser-based demos that show GRIP in progressively more complex scenarios — from a single guarded function to a full financial dashboard with audit logging and budget enforcement.
+
+```
+npm run example
+```
+
+This starts a local static server and serves the examples at `http://localhost:3000`. No build step, no bundler. Each example is a self-contained set of ES modules that import GRIP directly from `core/grip.js`.
+
+| Example | Functions | Hooks | Key features |
+|---------|:---------:|:-----:|--------------|
+| Div Counter | 1 | 3 | rate limiter, URL guard, CORS |
+| Meteo | 3 | 3 | chained pipeline, assertResult, Open-Meteo API |
+| Social Feed | 8 | 5 | auth guard, ownership, content moderation, localStorage |
+| Finance | 9 | 4 | budget enforcer, amount normalizer, audit log, CSV export |
+
+Every example includes a live 3D map of the GRIP instance — functions, hooks, and their connections — rendered in real time from the inspection API.
+
+---
+
 ## Core concepts
 
 ### The registry
