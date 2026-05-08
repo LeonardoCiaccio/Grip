@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRIP · Examples</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: {} } }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body  { font-family: 'Inter', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    * { scrollbar-width: thin; scrollbar-color: #374151 transparent; }
+
+    .preview-wrap {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+      background: #030712;
+    }
+    .preview-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1280px;
+      height: 800px;
+      border: none;
+      pointer-events: none;
+      transform: scale(0.46875); /* 600 / 1280 */
+      transform-origin: top left;
+    }
+    .preview-overlay {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .example-card {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+    .example-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 1px #6366f1, 0 8px 32px rgba(99,102,241,.15);
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
+
+  <div class="max-w-7xl mx-auto px-6 py-14 space-y-12">
+
+    <!-- Header -->
+    <header class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5 text-indigo-400 text-xs font-semibold tracking-widest uppercase">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+        </svg>
+        GRIP Framework
+      </div>
+      <h1 class="text-5xl font-bold text-white tracking-tight">Examples</h1>
+      <p class="text-gray-500 text-base max-w-xl mx-auto leading-relaxed">
+        Four live demos that showcase GRIP's interceptor pipeline —
+        from a single-function counter to a full financial dashboard.
+      </p>
+      <div class="flex items-center justify-center gap-2 pt-1 mono text-xs text-gray-600">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+        served locally · click any card to open
+      </div>
+    </header>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- ── Count Div ──────────────────────────────────────────────────────── -->
+      <div class="example-card bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <div class="preview-wrap rounded-t-2xl">
+          <iframe src="./count-div/index.html" class="preview-frame" loading="lazy" title="Div Counter preview"></iframe>
+          <div class="preview-overlay" onclick="window.location='./count-div/'"></div>
+          <div class="absolute bottom-3 right-3 z-20">
+            <a href="./count-div/" class="flex items-center gap-1.5 bg-gray-950/80 hover:bg-indigo-600 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-all backdrop-blur-sm select-none">
+              Open
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="px-5 py-4 space-y-3 border-t border-gray-800">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="text-base font-bold text-white">Div Counter</h2>
+              <p class="text-gray-500 text-sm mt-0.5 leading-relaxed">
+                Fetches any CORS-enabled URL and counts its <code class="mono text-gray-400">&lt;div&gt;</code> elements through a guarded, rate-limited pipeline.
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag text-emerald-400 bg-emerald-400/10 border-emerald-500/20">1 function</span>
+            <span class="tag text-sky-400 bg-sky-400/10 border-sky-500/20">3 hooks</span>
+            <span class="tag text-amber-400 bg-amber-400/10 border-amber-500/20">rate limiter</span>
+            <span class="tag text-violet-400 bg-violet-400/10 border-violet-500/20">guard</span>
+            <span class="tag text-indigo-400 bg-indigo-400/10 border-indigo-500/20">3D map</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Meteo ──────────────────────────────────────────────────────────── -->
+      <div class="example-card bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <div class="preview-wrap rounded-t-2xl">
+          <iframe src="./meteo/index.html" class="preview-frame" loading="lazy" title="Meteo preview"></iframe>
+          <div class="preview-overlay" onclick="window.location='./meteo/'"></div>
+          <div class="absolute bottom-3 right-3 z-20">
+            <a href="./meteo/" class="flex items-center gap-1.5 bg-gray-950/80 hover:bg-indigo-600 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-all backdrop-blur-sm select-none">
+              Open
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="px-5 py-4 space-y-3 border-t border-gray-800">
+          <div>
+            <h2 class="text-base font-bold text-white">Meteo</h2>
+            <p class="text-gray-500 text-sm mt-0.5 leading-relaxed">
+              Three chained functions — geocode, fetch, format — each with its own contract, calling Open-Meteo's free API.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag text-emerald-400 bg-emerald-400/10 border-emerald-500/20">3 functions</span>
+            <span class="tag text-sky-400 bg-sky-400/10 border-sky-500/20">3 hooks</span>
+            <span class="tag text-amber-400 bg-amber-400/10 border-amber-500/20">chained pipeline</span>
+            <span class="tag text-violet-400 bg-violet-400/10 border-violet-500/20">assertResult</span>
+            <span class="tag text-indigo-400 bg-indigo-400/10 border-indigo-500/20">3D map</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Social Feed ────────────────────────────────────────────────────── -->
+      <div class="example-card bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <div class="preview-wrap rounded-t-2xl">
+          <iframe src="./social-feed/index.html" class="preview-frame" loading="lazy" title="Social Feed preview"></iframe>
+          <div class="preview-overlay" onclick="window.location='./social-feed/'"></div>
+          <div class="absolute bottom-3 right-3 z-20">
+            <a href="./social-feed/" class="flex items-center gap-1.5 bg-gray-950/80 hover:bg-indigo-600 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-all backdrop-blur-sm select-none">
+              Open
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="px-5 py-4 space-y-3 border-t border-gray-800">
+          <div>
+            <h2 class="text-base font-bold text-white">Social Feed</h2>
+            <p class="text-gray-500 text-sm mt-0.5 leading-relaxed">
+              Full interactive social feed with likes, comments, search, 4 switchable users, role-based ownership and content moderation.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag text-emerald-400 bg-emerald-400/10 border-emerald-500/20">8 functions</span>
+            <span class="tag text-sky-400 bg-sky-400/10 border-sky-500/20">5 hooks</span>
+            <span class="tag text-amber-400 bg-amber-400/10 border-amber-500/20">auth guard</span>
+            <span class="tag text-rose-400 bg-rose-400/10 border-rose-500/20">ownership</span>
+            <span class="tag text-violet-400 bg-violet-400/10 border-violet-500/20">moderator</span>
+            <span class="tag text-indigo-400 bg-indigo-400/10 border-indigo-500/20">3D map</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Finance ────────────────────────────────────────────────────────── -->
+      <div class="example-card bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <div class="preview-wrap rounded-t-2xl">
+          <iframe src="./finance/index.html" class="preview-frame" loading="lazy" title="Finance preview"></iframe>
+          <div class="preview-overlay" onclick="window.location='./finance/'"></div>
+          <div class="absolute bottom-3 right-3 z-20">
+            <a href="./finance/" class="flex items-center gap-1.5 bg-gray-950/80 hover:bg-indigo-600 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-all backdrop-blur-sm select-none">
+              Open
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="px-5 py-4 space-y-3 border-t border-gray-800">
+          <div>
+            <h2 class="text-base font-bold text-white">Finance Dashboard</h2>
+            <p class="text-gray-500 text-sm mt-0.5 leading-relaxed">
+              Financial tracker with balance, category summaries, CSV export, budget enforcement and a real-time audit log for every write operation.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag text-emerald-400 bg-emerald-400/10 border-emerald-500/20">9 functions</span>
+            <span class="tag text-sky-400 bg-sky-400/10 border-sky-500/20">4 hooks</span>
+            <span class="tag text-amber-400 bg-amber-400/10 border-amber-500/20">budget enforcer</span>
+            <span class="tag text-teal-400 bg-teal-400/10 border-teal-500/20">audit log</span>
+            <span class="tag text-violet-400 bg-violet-400/10 border-violet-500/20">normalizer</span>
+            <span class="tag text-indigo-400 bg-indigo-400/10 border-indigo-500/20">3D map</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-700 pt-4 space-y-1">
+      <p>GRIP — Global Registry with Interceptors Pipeline &middot; by Leonardo Ciaccio</p>
+      <p class="mono">npm run example &nbsp;·&nbsp; http://localhost:3000</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

@@ -7,7 +7,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:verbose": "jest --verbose"
+    "test:verbose": "jest --verbose",
+    "example": "node scripts/serve-examples.js"
   },
   "keywords": ["grip", "registry", "interceptors", "pipeline", "hooks", "business-logic"],
   "author": "Leonardo Ciaccio",
